@@ -1,3 +1,4 @@
+const { busqueda } = require("../database/busqueda");
 const { cuentas_prestamos, usuarios } = require("../database/db");
 const { fecha_mensual } = require("../database/fechas");
 const { v4: uuidv4 } = require('uuid');
@@ -45,7 +46,7 @@ class PrestamosC {
                     balance: Number(balance), 
                     interes: Number(interes),
                     deuda: Number(balance),
-                    tasa_interes: Number(((Number(interes) / 360) * Number(balance)).toFixed(2)), 
+                    tasa_interes: Number((((Number(interes) / 100) / 360) * Number(balance)).toFixed(2)), 
                     usuario: usuario,
                     id: uuidv4(),
                     fecha_pagar: fecha_mensual()
@@ -54,6 +55,35 @@ class PrestamosC {
                 return resolve({
                     mensaje: "Se completo la peticion para agregar cuenta de prestamos",
                     data: nuevo
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    // Peticion para editar
+    editar(edicion, cuenta) {
+        return new Promise((resolve, reject) => {
+            try {
+                let {error, data, id} = busqueda(cuentas_prestamos, cuenta)
+                console.log(data)
+                let {balance, interes, deuda} = edicion
+                if (!balance || !interes || !deuda) {
+                    return reject("Revisa nuevamente el manual, te falta propiedades")
+                }
+                if (error) {
+                    return reject("No existe la cuenta")
+                }
+                data.balance = Number(balance)
+                data.interes = Number(interes)
+                data.tasa_interes = Number((((Number(interes) / 100) / 360) * Number(balance)).toFixed(2))
+                data.deuda = Number(deuda)
+                cuentas_prestamos.splice(id, 1);
+                cuentas_prestamos.push(data);
+                return resolve({
+                    mensaje: "Peticion realizado con exito para editar la cuenta de prestamos",
+                    data: data
                 })
             } catch (error) {
                 reject(error)

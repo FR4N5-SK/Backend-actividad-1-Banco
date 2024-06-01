@@ -1,3 +1,4 @@
+const { busqueda } = require("../database/busqueda");
 const { usuarios } = require("../database/db");
 
 class UsuariosC {
@@ -40,6 +41,33 @@ class UsuariosC {
                 return resolve({
                     mensaje: "Se completo la peticion para agregar usuario",
                     data: nuevo
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    // Peticion para editar
+    editar(edicion, usuario) {
+        return new Promise((resolve, reject) => {
+            try {
+                let {error, data, id} = busqueda(usuarios, usuario)
+                let {nombre, apellido, clave} = edicion
+                if (!nombre || !apellido || !clave) {
+                    return reject("Revisa nuevamente el manual, te falta propiedades")
+                }
+                if (error) {
+                    return reject("No existe el usuario")
+                }
+                data.nombre = nombre
+                data.apellido = apellido
+                data.clave = clave
+                usuarios.splice(id, 1);
+                usuarios.push(data);
+                return resolve({
+                    mensaje: "Peticion realizado con exito para editar usuario",
+                    data: data
                 })
             } catch (error) {
                 reject(error)

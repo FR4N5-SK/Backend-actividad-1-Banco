@@ -36,4 +36,21 @@ router.post('/', function(req, res, next) {
   })
 });
 
+// Editar Usuario
+router.put('/:usuario', function(req, res, next) {
+  usuariosControllers.editar(req.body, req.params.usuario)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      usuario_editado: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;
