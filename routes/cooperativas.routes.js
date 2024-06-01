@@ -19,4 +19,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+// Agregar Grupo de Cooperativa
+router.post('/', function(req, res, next) {
+  cooperativasControllers.crear(req.body)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      grupo_creado: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

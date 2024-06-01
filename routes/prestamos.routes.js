@@ -19,4 +19,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+// Agregar Cuenta Prestamo
+router.post('/', function(req, res, next) {
+  prestamosControllers.crear(req.body)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      cuenta_creada: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

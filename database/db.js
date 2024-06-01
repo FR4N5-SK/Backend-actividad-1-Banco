@@ -35,19 +35,19 @@ const cuentas_prestamos = [
         balance: 900,
         interes: 20,
         tasa_interes: 0.5,
-        monto_max: 1000,
+        deuda: 1000,
         id: "12345678",
         usuario: "MarioGomez",
-        fecha: "2024-12-24"
+        fecha_pagar: "2024-12-24"
     },
     {
         balance: 12000,
         interes: 20,
         tasa_interes: 6.66,
-        monto_max: 100000,
+        deuda: 4000,
         id: "123456789",
         usuario: "AndresGomez",
-        fecha: "2024-06-24"
+        fecha_pagar: "2024-06-24"
     },
 ]
 

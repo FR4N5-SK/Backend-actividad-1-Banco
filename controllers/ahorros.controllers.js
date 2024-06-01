@@ -1,4 +1,4 @@
-const { cuentas_ahorro } = require("../database/db");
+const { cuentas_ahorro, usuarios } = require("../database/db");
 const { v4: uuidv4 } = require('uuid');
 
 class AhorrosC {
@@ -31,10 +31,19 @@ class AhorrosC {
                         return reject("Ya el usuario tiene una cuenta de ahorro usuario")
                     }
                 }
+                let error = true
+                for (let i = 0; i < usuarios.length; i++) {
+                    if (usuarios[i].usuario === usuario) {
+                        error = false
+                    }
+                }
+                if (error) {
+                    return reject("No existe el usuario")
+                }
                 let nuevo = {
                     balance: Number(balance), 
                     interes: Number(interes),
-                    tasa_interes: Number(((interes / 360) * balance).toFixed(2)), 
+                    tasa_interes: Number(((Number(interes) / 360) * Number(balance)).toFixed(2)), 
                     usuario: usuario,
                     id: uuidv4()
                 }
