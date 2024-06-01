@@ -1,6 +1,6 @@
 const { grupos_cooperativas, usuarios, relacion_cooperativas } = require("../database/db");
 const { v4: uuidv4 } = require('uuid');
-const { programacion_fechas } = require("../database/fechas");
+const { programacion_fechas, hoy } = require("../database/fechas");
 const { busqueda } = require("../database/busqueda");
 
 class CooperativasC {
@@ -96,6 +96,34 @@ class CooperativasC {
                 return resolve({
                     mensaje: "Se completo con exito la peticion de relacionar cooperativa con usuario",
                     data: relacion
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    proxima(cuenta) {
+        return new Promise((resolve, reject) => {
+            try {
+                let fecha_hoy = hoy()
+                let fecha_proxima = "Ya pasaron todas las fechas de pago de la cooperativa"
+                let { error, data } = busqueda(grupos_cooperativas, cuenta)
+                if (error) {
+                    return reject("No existe la cooperativa")
+                }
+                for (let i = 0; i < data.fechas.length; i++) {
+                    if (data.fechas[i] >= fecha_hoy) {
+                        fecha_proxima = data.fechas[i]
+                        return resolve({
+                            mensaje: "Se completo con exito la peticion de listar la proxima fecha de pago",
+                            data: fecha_proxima
+                        })
+                    }
+                }
+                return resolve({
+                    mensaje: "Se completo con exito la peticion de listar la proxima fecha de pago",
+                    data: fecha_proxima
                 })
             } catch (error) {
                 reject(error)

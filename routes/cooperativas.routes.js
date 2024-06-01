@@ -70,4 +70,21 @@ router.post('/:usuario/:cooperativa', function(req, res, next) {
   })
 });
 
+// Mostrar proxima fecha de pago de una cooperativa
+router.get('/:cuenta', function(req, res, next) {
+  cooperativasControllers.proxima(req.params.cuenta)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      fecha_proxima: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

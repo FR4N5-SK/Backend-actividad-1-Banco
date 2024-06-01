@@ -53,4 +53,38 @@ router.put('/:usuario', function(req, res, next) {
   })
 });
 
+// Mostrar las cuentas del usuario
+router.get('/cuentas/:usuario', function(req, res, next) {
+  usuariosControllers.cuentas(req.params.usuario)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      cuentas: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
+// Mostrar resumen de todo el banco por tipos de cuentas
+router.get('/resumen', function(req, res, next) {
+  usuariosControllers.resumen()
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      resumen: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

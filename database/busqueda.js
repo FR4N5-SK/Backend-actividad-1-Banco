@@ -21,6 +21,17 @@ function busqueda(array, buscado) {
     })
 }
 
+function busqueda2(array, buscado) {
+    let cuentas = []
+    for (let i = 0; i < array.length; i++) {
+        if (array[i].usuario === buscado) {
+            cuentas.push(array[i])
+        }
+    }
+    return cuentas
+}
+
 module.exports = {
-    busqueda
+    busqueda,
+    busqueda2
 }
