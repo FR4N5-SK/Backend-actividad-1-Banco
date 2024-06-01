@@ -1,14 +1,14 @@
 var express = require('express');
-const usuariosControllers = require('../controllers/usuarios.controllers');
+const ahorrosControllers = require('../controllers/ahorros.controllers');
 var router = express.Router();
 
-// Mostrar todos los usuarios
+// Mostrar todas las cuentas de ahorros
 router.get('/', function(req, res, next) {
-  usuariosControllers.mostrar()
+  ahorrosControllers.mostrar()
   .then((respuesta) => {
     res.status(200).json({
       mensaje: respuesta.mensaje,
-      usuarios: respuesta.data
+      cuentas: respuesta.data
     })
   })
   .catch((error) => {
