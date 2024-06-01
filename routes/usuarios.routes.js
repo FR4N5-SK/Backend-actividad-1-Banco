@@ -87,4 +87,21 @@ router.get('/resumen', function(req, res, next) {
   })
 });
 
+// Eliminar Usuario
+router.delete('/:usuario', function(req, res, next) {
+  usuariosControllers.eliminar(req.params.usuario)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      usuario_eliminado: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

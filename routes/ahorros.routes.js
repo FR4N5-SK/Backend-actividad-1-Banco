@@ -53,4 +53,21 @@ router.put('/:cuenta', function(req, res, next) {
   })
 });
 
+// Eliminar Cuenta
+router.delete('/:cuenta', function(req, res, next) {
+  ahorrosControllers.eliminar(req.params.cuenta)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      cuenta_eliminada: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

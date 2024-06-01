@@ -23,7 +23,7 @@ class AhorrosC {
     crear(cuenta_nueva) {
         return new Promise((resolve, reject) => {
             try {
-                let {balance, interes, usuario} = cuenta_nueva;
+                let { balance, interes, usuario } = cuenta_nueva;
                 if (!balance || !interes || !usuario) {
                     return reject("Revisa nuevamente el manuel, te falta propiedades")
                 }
@@ -42,9 +42,9 @@ class AhorrosC {
                     return reject("No existe el usuario")
                 }
                 let nuevo = {
-                    balance: Number(balance), 
+                    balance: Number(balance),
                     interes: Number(interes),
-                    tasa_interes: Number((((Number(interes) / 100) / 360) * Number(balance)).toFixed(2)), 
+                    tasa_interes: Number((((Number(interes) / 100) / 360) * Number(balance)).toFixed(2)),
                     usuario: usuario,
                     id: uuidv4()
                 }
@@ -63,9 +63,9 @@ class AhorrosC {
     editar(edicion, cuenta) {
         return new Promise((resolve, reject) => {
             try {
-                let {error, data, id} = busqueda(cuentas_ahorro, cuenta)
+                let { error, data, id } = busqueda(cuentas_ahorro, cuenta)
                 console.log(data)
-                let {balance, interes} = edicion
+                let { balance, interes } = edicion
                 if (!balance || !interes) {
                     return reject("Revisa nuevamente el manual, te falta propiedades")
                 }
@@ -79,6 +79,25 @@ class AhorrosC {
                 cuentas_ahorro.push(data);
                 return resolve({
                     mensaje: "Peticion realizado con exito para editar la cuenta de ahorros",
+                    data: data
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    //Eliminar Cuenta
+    eliminar(cuenta) {
+        return new Promise((resolve, reject) => {
+            try {
+                let { error, data, id } = busqueda(cuentas_ahorro, cuenta)
+                if (error) {
+                    return reject("No existe la cuenta")
+                }
+                cuentas_ahorro.splice(id, 1);
+                return resolve({
+                    mensaje: "Completado con exito la peticion de eliminar la cuenta de ahorro",
                     data: data
                 })
             } catch (error) {

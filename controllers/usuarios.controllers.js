@@ -22,7 +22,7 @@ class UsuariosC {
     crear(usuario_nuevo) {
         return new Promise((resolve, reject) => {
             try {
-                let {nombre, apellido, clave, usuario} = usuario_nuevo;
+                let { nombre, apellido, clave, usuario } = usuario_nuevo;
                 if (!nombre || !apellido || !clave || !usuario) {
                     return reject("Revisa nuevamente el manuel, te falta propiedades")
                 }
@@ -32,9 +32,9 @@ class UsuariosC {
                     }
                 }
                 let nuevo = {
-                    nombre: nombre, 
-                    apellido: apellido, 
-                    clave: clave, 
+                    nombre: nombre,
+                    apellido: apellido,
+                    clave: clave,
                     usuario: usuario
                 }
                 usuarios.push(nuevo);
@@ -52,8 +52,8 @@ class UsuariosC {
     editar(edicion, usuario) {
         return new Promise((resolve, reject) => {
             try {
-                let {error, data, id} = busqueda(usuarios, usuario)
-                let {nombre, apellido, clave} = edicion
+                let { error, data, id } = busqueda(usuarios, usuario)
+                let { nombre, apellido, clave } = edicion
                 if (!nombre || !apellido || !clave) {
                     return reject("Revisa nuevamente el manual, te falta propiedades")
                 }
@@ -155,7 +155,32 @@ class UsuariosC {
                     data: resumen
                 })
             } catch (error) {
-                
+
+            }
+        })
+    }
+
+    //Eliminar usuario
+    eliminar(usuario) {
+        return new Promise((resolve, reject) => {
+            try {
+                let { error, data, id } = busqueda(usuarios, usuario)
+                let ahorro = busqueda(cuentas_ahorro, usuario)
+                let prestamos = busqueda(cuentas_prestamos, usuario)
+                let cooperativas = busqueda(relacion_cooperativas, usuario)
+                if (error) {
+                    return reject("No existe el usuario")
+                }
+                cuentas_ahorro.splice(ahorro.id, 1);
+                cuentas_prestamos.splice(prestamos.id, 1);
+                relacion_cooperativas.splice(cooperativas.id, 1);
+                usuarios.splice(id, 1);
+                return resolve({
+                    mensaje: "Completado con exito la peticion de eliminar el usuario",
+                    data: data
+                })
+            } catch (error) {
+                reject(error)
             }
         })
     }

@@ -104,4 +104,21 @@ router.delete('/eliminar-relacion/:usuario/:cooperativa', function(req, res, nex
   })
 });
 
+// Eliminar Grupo de Cooperativa
+router.delete('/:grupo', function(req, res, next) {
+  cooperativasControllers.eliminar(req.params.grupo)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      grupo_eliminado: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

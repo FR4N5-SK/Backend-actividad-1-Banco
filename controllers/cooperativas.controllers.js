@@ -152,6 +152,25 @@ class CooperativasC {
             }
         })
     }
+
+    //Eliminar Cuenta
+    eliminar(cuenta) {
+        return new Promise((resolve, reject) => {
+            try {
+                let { error, data, id } = busqueda(grupos_cooperativas, cuenta)
+                if (error) {
+                    return reject("No existe el grupo de cooperativa")
+                }
+                grupos_cooperativas.splice(id, 1);
+                return resolve({
+                    mensaje: "Completado con exito la peticion de eliminar el grupo",
+                    data: data
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
 }
 
 module.exports = new CooperativasC();
