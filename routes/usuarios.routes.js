@@ -19,4 +19,21 @@ router.get('/', function(req, res, next) {
   })
 });
 
+// Agregar Usuario
+router.post('/', function(req, res, next) {
+  usuariosControllers.crear(req.body)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      usuario_creado: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;
