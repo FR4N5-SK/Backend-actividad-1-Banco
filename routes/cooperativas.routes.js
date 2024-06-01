@@ -87,4 +87,21 @@ router.get('/:cuenta', function(req, res, next) {
   })
 });
 
+// Eliminar relacion de usuario con cooperativa
+router.delete('/eliminar-relacion/:usuario/:cooperativa', function(req, res, next) {
+  cooperativasControllers.eliminarRelacion(req.params.usuario, req.params.cooperativa)
+  .then((respuesta) => {
+    res.status(200).json({
+      mensaje: respuesta.mensaje,
+      relacion_eliminada: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;

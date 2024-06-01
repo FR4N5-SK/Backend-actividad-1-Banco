@@ -130,6 +130,28 @@ class CooperativasC {
             }
         })
     }
+
+    eliminarRelacion(usuario, cooperativa) {
+        return new Promise((resolve, reject) => {
+            try {
+                for (let i = 0; i < relacion_cooperativas.length; i++) {
+                    if (relacion_cooperativas[i].usuario === usuario && relacion_cooperativas[i].grupo_cooperativa === cooperativa) {
+                        relacion_cooperativas.splice(i, 1);
+                        return resolve({
+                            mensaje: "Completada con exito la peticion de eliminar usuario de una cooperativa",
+                            data: {
+                                usuario: usuario,
+                                cooperativa: cooperativa
+                            }
+                        })
+                    }
+                }
+                return reject("Este usuario no esta registrado a esa cooperativa")
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
 }
 
 module.exports = new CooperativasC();

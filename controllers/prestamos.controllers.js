@@ -67,7 +67,6 @@ class PrestamosC {
         return new Promise((resolve, reject) => {
             try {
                 let {error, data, id} = busqueda(cuentas_prestamos, cuenta)
-                console.log(data)
                 let {balance, interes, deuda} = edicion
                 if (!balance || !interes || !deuda) {
                     return reject("Revisa nuevamente el manual, te falta propiedades")
@@ -83,6 +82,25 @@ class PrestamosC {
                 cuentas_prestamos.push(data);
                 return resolve({
                     mensaje: "Peticion realizado con exito para editar la cuenta de prestamos",
+                    data: data
+                })
+            } catch (error) {
+                reject(error)
+            }
+        })
+    }
+
+    //Eliminar Cuenta
+    eliminar(cuenta) {
+        return new Promise((resolve, reject) => {
+            try {
+                let {error, data, id} = busqueda(cuentas_prestamos, cuenta)
+                if (error) {
+                    return reject("No existe la cuenta")
+                }
+                cuentas_prestamos.splice(id, 1);
+                return resolve({
+                    mensaje: "Completado con exito la peticion de eliminar cuenta",
                     data: data
                 })
             } catch (error) {
