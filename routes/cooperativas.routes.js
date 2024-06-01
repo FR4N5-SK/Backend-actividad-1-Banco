@@ -36,4 +36,38 @@ router.post('/', function(req, res, next) {
   })
 });
 
+// Editar Grupos Cooperativas
+router.put('/:cuenta', function(req, res, next) {
+  cooperativasControllers.editar(req.body, req.params.cuenta)
+  .then((respuesta) => {
+    res.status(201).json({
+      mensaje: respuesta.mensaje,
+      grupo_editado: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
+// Agregar Grupo de Cooperativa
+router.post('/:usuario/:cooperativa', function(req, res, next) {
+  cooperativasControllers.relacionar(req.params.usuario, req.params.cooperativa)
+  .then((respuesta) => {
+    res.status(201).json({
+      mensaje: respuesta.mensaje,
+      relacion_creada: respuesta.data
+    })
+  })
+  .catch((error) => {
+    res.status(400).json({
+      status: "400",
+      mensaje: error
+    })
+  })
+});
+
 module.exports = router;
